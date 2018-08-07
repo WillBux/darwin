@@ -12,4 +12,7 @@ setup(name='darwin',
                         'numpy>=1.13.3',
                         'pandas>=0.23.4',
                         'scikit-learn>=0.19.0'],
+      classifiers=("Programming Language :: Python :: 3",
+                   "License :: OSI Approved :: MIT License",
+                   "Operating System :: OS Independent"),
       packages=find_packages())

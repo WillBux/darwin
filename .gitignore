@@ -3,6 +3,9 @@
 *.swp
 *.log
 *.coverage
+dist/*
+build/*
+darwin.egg-info
 
 
 # developer environments
