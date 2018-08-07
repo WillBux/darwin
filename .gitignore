@@ -1,0 +1,10 @@
+*.DS_Store
+*.pyc
+*.swp
+*.log
+*.coverage
+
+
+# developer environments
+.idea
+.vscode
