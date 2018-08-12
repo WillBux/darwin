@@ -6,6 +6,7 @@ from darwin.metrics import *
 class BinaryBeing:
     def __init__(self, features=None, variable_power=3, weight_sigma=5, lr=1, pruning=1, parents=None, metric='acc',
                  new=True):
+        self.score = 0
         if parents is None:
             if features is None:
                 raise ValueError('features cannot be initialized as None')
@@ -127,15 +128,20 @@ class BinaryBeing:
                     correct += 1
                 else:
                     incorrect += 1
-            return (correct + 0.0) / (correct + incorrect + 0.0)
+            self.score = (correct + 0.0) / (correct + incorrect + 0.0)
         elif metric == 'roc':
             pred = np.nan_to_num(pred)
-            return roc_auc_score(y, pred)
+            self.score = roc_auc_score(y, pred)
+        return self.score
+
+    def __lt__(self, other):
+        return self.score < other.score
 
 
 class CategoricalBeing:
     def __init__(self, features=None, classes=None, variable_power=3, weight_sigma=5, lr=1, pruning=1, parents=None,
                  metric='log_loss', new=True):
+        self.score = 0
         if parents is None:
             if features is None:
                 raise ValueError('features cannot be initialized as None')
@@ -285,7 +291,7 @@ class CategoricalBeing:
         pred = self.predict(x)
         pred = np.nan_to_num(pred)
         if metric == 'log_loss':
-            return 1 / log_loss(y, pred)
+            self.score = 1 / log_loss(y, pred)
         elif metric == 'acc':
             y = np.array(y)
             pred = np.array(pred)
@@ -296,4 +302,8 @@ class CategoricalBeing:
                     correct += 1
                 else:
                     incorrect += 1
-            return (correct + 0.0) / (incorrect + correct + 0.0)
+            self.score = (correct + 0.0) / (incorrect + correct + 0.0)
+        return self.score
+
+    def __lt__(self, other):
+        return self.score < other.score
